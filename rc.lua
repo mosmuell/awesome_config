@@ -239,25 +239,28 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey, }, "s", hotkeys_popup.show_help,
         { description = "show help", group = "awesome" }),
+
+    -- Focus on tags
     awful.key({ modkey, }, "Left", awful.tag.viewprev,
         { description = "view previous", group = "tag" }),
     awful.key({ modkey, }, "Right", awful.tag.viewnext,
         { description = "view next", group = "tag" }),
-    awful.key({ modkey, }, "Escape", awful.tag.history.restore,
-        { description = "go back", group = "tag" }),
 
-    awful.key({ modkey, }, "j",
-        function()
-            awful.client.focus.byidx(1)
-        end,
-        { description = "focus next by index", group = "client" }
-    ),
-    awful.key({ modkey, }, "k",
-        function()
-            awful.client.focus.byidx(-1)
-        end,
-        { description = "focus previous by index", group = "client" }
-    ),
+    -- awful.key({ modkey, }, "Escape", awful.tag.history.restore,
+    --     { description = "go back", group = "tag" }),
+
+    -- awful.key({ modkey, }, "j",
+    --     function()
+    --         awful.client.focus.byidx(1)
+    --     end,
+    --     { description = "focus next by index", group = "client" }
+    -- ),
+    -- awful.key({ modkey, }, "k",
+    --     function()
+    --         awful.client.focus.byidx(-1)
+    --     end,
+    --     { description = "focus previous by index", group = "client" }
+    -- ),
     awful.key({ modkey, }, "w", function() mymainmenu:show() end,
         { description = "show main menu", group = "awesome" }),
 
@@ -287,36 +290,35 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "x", awesome.quit,
         { description = "quit awesome", group = "awesome" }),
 
-    awful.key({ modkey, }, "l", function() awful.tag.incmwfact(0.05) end,
-        { description = "increase master width factor", group = "layout" }),
-    awful.key({ modkey, }, "h", function() awful.tag.incmwfact(-0.05) end,
-        { description = "decrease master width factor", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "h", function() awful.tag.incnmaster(1, nil, true) end,
+    -- Master and column manipulation
+    awful.key({ modkey}, "m", function() awful.tag.incnmaster(1, nil, true) end,
         { description = "increase the number of master clients", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "l", function() awful.tag.incnmaster(-1, nil, true) end,
+    awful.key({ modkey, "Shift" }, "m", function() awful.tag.incnmaster(-1, nil, true) end,
         { description = "decrease the number of master clients", group = "layout" }),
-    awful.key({ modkey, "Control" }, "h", function() awful.tag.incncol(1, nil, true) end,
+    awful.key({ modkey}, "n", function() awful.tag.incncol(1, nil, true) end,
         { description = "increase the number of columns", group = "layout" }),
-    awful.key({ modkey, "Control" }, "l", function() awful.tag.incncol(-1, nil, true) end,
+    awful.key({ modkey, "Shift" }, "n", function() awful.tag.incncol(-1, nil, true) end,
         { description = "decrease the number of columns", group = "layout" }),
+
+    -- Swap layout
     awful.key({ modkey, }, "space", function() awful.layout.inc(1) end,
         { description = "select next", group = "layout" }),
     awful.key({ modkey, "Shift" }, "space", function() awful.layout.inc(-1) end,
         { description = "select previous", group = "layout" }),
 
-    awful.key({ modkey, "Control" }, "n",
-        function()
-            local c = awful.client.restore()
-            -- Focus restored client
-            if c then
-                c:emit_signal(
-                    "request::activate", "key.unminimize", { raise = true }
-                )
-            end
-        end,
-        { description = "restore minimized", group = "client" }),
+    -- awful.key({ modkey, "Control" }, "n",
+    --     function()
+    --         local c = awful.client.restore()
+    --         -- Focus restored client
+    --         if c then
+    --             c:emit_signal(
+    --                 "request::activate", "key.unminimize", { raise = true }
+    --             )
+    --         end
+    --     end,
+    --     { description = "restore minimized", group = "client" }),
 
-    awful.key({ modkey }, "x",
+    awful.key({ modkey, "Shift" }, "p",
         function()
             awful.prompt.run {
                 prompt       = "Run Lua code: ",
@@ -443,6 +445,7 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+-- Handling window states
     awful.key({ modkey, }, "f",
         function(c)
             c.fullscreen = not c.fullscreen
@@ -451,39 +454,152 @@ clientkeys = gears.table.join(
         { description = "toggle fullscreen", group = "client" }),
     awful.key({ modkey, "Shift" }, "q", function(c) c:kill() end,
         { description = "close", group = "client" }),
-    awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle,
+    awful.key({ modkey, }, "o", awful.client.floating.toggle,
         { description = "toggle floating", group = "client" }),
-    awful.key({ modkey, "Control" }, "Return", function(c) c:swap(awful.client.getmaster()) end,
-        { description = "move to master", group = "client" }),
-    awful.key({ modkey, }, "o", function(c) c:move_to_screen() end,
-        { description = "move to screen", group = "client" }),
     awful.key({ modkey, }, "t", function(c) c.ontop = not c.ontop end,
         { description = "toggle keep on top", group = "client" }),
-    awful.key({ modkey, }, "n",
-        function(c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end,
-        { description = "minimize", group = "client" }),
-    awful.key({ modkey, }, "m",
+
+    -- Layout control
+    awful.key({ modkey, "Shift" }, "Return", function(c) c:swap(awful.client.getmaster()) end,
+        { description = "move to master", group = "client" }),
+    awful.key({ modkey, }, "", function(c) c:move_to_screen() end,
+        { description = "move to screen", group = "client" }),
+
+    -- awful.key({ modkey, }, "n",
+    --     function(c)
+    --         -- The client currently has the input focus, so it cannot be
+    --         -- minimized, since minimized clients can't have the focus.
+    --         c.minimized = true
+    --     end,
+    --     { description = "minimize", group = "client" }),
+
+    -- Resize windows
+    awful.key({ modkey, "Control" }, "Up", function(c)
+        if c.floating then
+            c:relative_move(0, 0, 0, -10)
+        else
+            awful.client.incwfact(0.025)
+        end
+    end,
+        { description = "Floating Resize Vertical -", group = "client" }),
+    awful.key({ modkey, "Control" }, "Down", function(c)
+        if c.floating then
+            c:relative_move(0, 0, 0, 10)
+        else
+            awful.client.incwfact(-0.025)
+        end
+    end,
+        { description = "Floating Resize Vertical +", group = "client" }),
+    awful.key({ modkey, "Control" }, "Left", function(c)
+        if c.floating then
+            c:relative_move(0, 0, -10, 0)
+        else
+            awful.tag.incmwfact(-0.025)
+        end
+    end,
+        { description = "Floating Resize Horizontal -", group = "client" }),
+    awful.key({ modkey, "Control" }, "Right", function(c)
+        if c.floating then
+            c:relative_move(0, 0, 10, 0)
+        else
+            awful.tag.incmwfact(0.025)
+        end
+    end,
+        { description = "Floating Resize Horizontal +", group = "client" }),
+
+    -- Moving floating windows
+    awful.key({ modkey, "Shift" }, "Down", function(c)
+        c:relative_move(0, 10, 0, 0)
+    end,
+        { description = "Floating Move Down", group = "client" }),
+    awful.key({ modkey, "Shift" }, "Up", function(c)
+        c:relative_move(0, -10, 0, 0)
+    end,
+        { description = "Floating Move Up", group = "client" }),
+    awful.key({ modkey, "Shift" }, "Left", function(c)
+        c:relative_move(-10, 0, 0, 0)
+    end,
+        { description = "Floating Move Left", group = "client" }),
+    awful.key({ modkey, "Shift" }, "Right", function(c)
+        c:relative_move(10, 0, 0, 0)
+    end,
+        { description = "Floating Move Right", group = "client" }),
+
+    -- Maximize unmaximize
+    awful.key({ modkey, }, "r",
         function(c)
             c.maximized = not c.maximized
             c:raise()
         end,
         { description = "(un)maximize", group = "client" }),
-    awful.key({ modkey, "Control" }, "m",
+    awful.key({ modkey, "Control" }, "k",
         function(c)
             c.maximized_vertical = not c.maximized_vertical
             c:raise()
         end,
         { description = "(un)maximize vertically", group = "client" }),
-    awful.key({ modkey, "Shift" }, "m",
+    awful.key({ modkey, "Control" }, "j",
+        function(c)
+            c.maximized_vertical = not c.maximized_vertical
+            c:raise()
+        end,
+        { description = "(un)maximize vertically", group = "client" }),
+    awful.key({ modkey, "Control" }, "l",
         function(c)
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end,
-        { description = "(un)maximize horizontally", group = "client" })
+        { description = "(un)maximize horizontally", group = "client" }),
+    awful.key({ modkey, "Control" }, "h",
+        function(c)
+            c.maximized_horizontal = not c.maximized_horizontal
+            c:raise()
+        end,
+        { description = "(un)maximize horizontally", group = "client" }),
+
+    -- Moving window focus works between desktops
+    awful.key({ modkey, }, "j", function(c)
+        awful.client.focus.global_bydirection("down")
+        c:lower()
+    end,
+        { description = "focus next window up", group = "client" }),
+    awful.key({ modkey, }, "k", function(c)
+        awful.client.focus.global_bydirection("up")
+        c:lower()
+    end,
+        { description = "focus next window down", group = "client" }),
+    awful.key({ modkey, }, "l", function(c)
+        awful.client.focus.global_bydirection("right")
+        c:lower()
+    end,
+        { description = "focus next window right", group = "client" }),
+    awful.key({ modkey, }, "h", function(c)
+        awful.client.focus.global_bydirection("left")
+        c:lower()
+    end,
+        { description = "focus next window left", group = "client" }),
+
+    -- Moving windows between positions works between desktops
+    awful.key({ modkey, "Shift" }, "h", function(c)
+        awful.client.swap.global_bydirection("left")
+        c:raise()
+    end,
+        { description = "swap with left client", group = "client" }),
+    awful.key({ modkey, "Shift" }, "l", function(c)
+        awful.client.swap.global_bydirection("right")
+        c:raise()
+    end,
+        { description = "swap with right client", group = "client" }),
+    awful.key({ modkey, "Shift" }, "j", function(c)
+        awful.client.swap.global_bydirection("down")
+        c:raise()
+    end,
+        { description = "swap with down client", group = "client" }),
+    awful.key({ modkey, "Shift" }, "k", function(c)
+        awful.client.swap.global_bydirection("up")
+        c:raise()
+    end,
+        { description = "swap with up client", group = "client" })
 )
 
 -- Bind all key numbers to tags.
@@ -629,7 +745,7 @@ awful.rules.rules = {
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
         and not c.size_hints.user_position
