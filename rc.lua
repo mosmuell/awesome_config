@@ -327,9 +327,9 @@ globalkeys = gears.table.join(
         end,
         { description = "lua execute prompt", group = "awesome" }),
 
-   -- =========================================
-   -- SPAWN APPLICATION KEY BINDINGS
-   -- =========================================
+    -- =========================================
+    -- SPAWN APPLICATION KEY BINDINGS
+    -- =========================================
 
     -- -- dmenu
     -- awful.key({ modkey }, "d", function()
@@ -610,13 +610,17 @@ awful.rules.rules = {
 
     -- Set Firefox to always map on the tag named "1" on screen 1.
     { rule = { class = "firefox" },
-        properties = { screen = 2, tag = names[1] } },
+        properties = { screen = 1, tag = names[1] } },
 
     { rule = { class = "rambox" },
         properties = { screen = 1, tag = names[9] } },
 
     { rule = { class = "Spotify" },
         properties = { screen = 1, tag = names[10] } },
+
+    { rule = { class = "libreoffice-writer" },
+        properties = { screen = 1, tag = names[4] } },
+
 }
 -- }}}
 
