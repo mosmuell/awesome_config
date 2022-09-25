@@ -14,13 +14,16 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+-- Widgets
+local battery_widget = require("widgets.battery")
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
 -- tag names
-local names = { "1 ", "2 ", "3 ", "4 ", "5 ", "6", "7", "8 ", "9 ", "10 " }
+local names = { "1  ", "2  ", "3  ", "4  ", "5  ", "6 ", "7 ", "8  ", "9  ", "10  " }
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -112,6 +115,20 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+
+local cw = calendar_widget({
+    theme = 'nord',
+    placement = 'top_right',
+    start_sunday = false,
+    radius = 8,
+    -- with customized next/previous (see table above)
+    previous_month_button = 1,
+    next_month_button = 3,
+})
+mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -218,9 +235,9 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            -- battery_widget(),
             wibox.widget.systray(),
             mytextclock,
+            battery_widget({ show_current_level = true, display_notification = true, font = require("theme.theme").font }),
             s.mylayoutbox,
         },
     }
@@ -291,11 +308,11 @@ globalkeys = gears.table.join(
         { description = "quit awesome", group = "awesome" }),
 
     -- Master and column manipulation
-    awful.key({ modkey}, "m", function() awful.tag.incnmaster(1, nil, true) end,
+    awful.key({ modkey }, "m", function() awful.tag.incnmaster(1, nil, true) end,
         { description = "increase the number of master clients", group = "layout" }),
     awful.key({ modkey, "Shift" }, "m", function() awful.tag.incnmaster(-1, nil, true) end,
         { description = "decrease the number of master clients", group = "layout" }),
-    awful.key({ modkey}, "n", function() awful.tag.incncol(1, nil, true) end,
+    awful.key({ modkey }, "n", function() awful.tag.incncol(1, nil, true) end,
         { description = "increase the number of columns", group = "layout" }),
     awful.key({ modkey, "Shift" }, "n", function() awful.tag.incncol(-1, nil, true) end,
         { description = "decrease the number of columns", group = "layout" }),
@@ -345,19 +362,19 @@ globalkeys = gears.table.join(
 
     -- firefox
     awful.key({ modkey, "Shift" }, "f", function()
-        awful.util.spawn("firefox")
+        awful.spawn("firefox")
     end,
         { description = "Open browser (firefox)", group = "launcher" }),
 
     -- spotify
     awful.key({ modkey, "Shift" }, "s", function()
-        awful.util.spawn("flatpak run com.spotify.Client")
+        awful.spawn("flatpak run com.spotify.Client")
     end,
         { description = "Open Spotify", group = "launcher" }),
 
     -- Ranger
     awful.key({ modkey }, "e", function()
-        awful.util.spawn(terminal .. " -e ranger")
+        awful.spawn(terminal .. " -e ranger")
     end,
         { description = "show the menubar", group = "launcher" }),
 
