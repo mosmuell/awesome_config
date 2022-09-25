@@ -10,7 +10,7 @@ local gfs = require("gears.filesystem")
 local themes_path = gfs.get_configuration_dir() .. "/theme/"
 local theme = {}
 
-theme.font          = "sans 10"
+theme.font          = "DejaVuSansMono Nerd Font 12"
 
 theme.bg_normal     = "#222222"
 theme.bg_focus      = "#535d6c"
