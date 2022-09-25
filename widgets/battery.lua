@@ -20,8 +20,8 @@ local dpi = require('beautiful').xresources.apply_dpi
 -- Battery 0: Charging, 53%, 00:57:43 until charged
 
 local HOME = os.getenv("HOME")
-local WIDGET_DIR = HOME .. '/.config/awesome/widgets/'
-local PATH_TO_ICONS = os.getenv("HOME") .. "/.config/awesome/icons/battery/"
+local PATH_TO_ICONS = HOME .. '/.config/awesome/icons/'
+local PATH_TO_BATTERY_ICONS = PATH_TO_ICONS .. "/battery/"
 
 local battery_widget = {}
 local function worker(user_args)
@@ -29,7 +29,7 @@ local function worker(user_args)
 
 
     local font = args.font or 'DejaVuSansMono Nerd Font 12'
-    local path_to_icons = PATH_TO_ICONS
+    local path_to_icons = PATH_TO_BATTERY_ICONS
     local show_current_level = args.show_current_level or false
     local margin_left = args.margin_left or 0
     local margin_right = args.margin_right or 0
@@ -41,8 +41,8 @@ local function worker(user_args)
 
     local warning_msg_title = args.warning_msg_title or 'Huston, we have a problem'
     local warning_msg_text = args.warning_msg_text or 'Battery is dying'
-    local warning_msg_position = args.warning_msg_position or 'bottom_right'
-    local warning_msg_icon = args.warning_msg_icon or WIDGET_DIR .. '/spaceman.jpg'
+    local warning_msg_position = args.warning_msg_position or 'top_middle'
+    local warning_msg_icon = args.warning_msg_icon or PATH_TO_ICONS .. "/spaceman.jpg"
     local enable_battery_warning = args.enable_battery_warning
     if enable_battery_warning == nil then
         enable_battery_warning = true
@@ -188,7 +188,7 @@ local function worker(user_args)
                 batteryType = string.format(batteryType, '')
             end
 
-            widget.icon:set_image(PATH_TO_ICONS .. batteryType .. ".svg")
+            widget.icon:set_image(PATH_TO_BATTERY_ICONS .. batteryType .. ".svg")
 
             -- Update popup text
             -- battery_popup.text = string.gsub(stdout, "\n$", "")
