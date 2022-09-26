@@ -118,7 +118,7 @@ mytextclock = wibox.widget.textclock()
 
 local cw = calendar_widget({
     theme = 'nord',
-    placement = 'top_right',
+    placement = 'top_middle',
     start_sunday = false,
     radius = 8,
     -- with customized next/previous (see table above)
@@ -231,12 +231,16 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+        -- s.mytasklist, -- Middle widget
+        { -- Middle widget
+            mytextclock,
+            layout = wibox.container.place,
+            valign = 'center',
+        },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            wibox.widget.systray(),
-            mytextclock,
+            wibox.widget.systray({screen = awful.screen.focused()}),
             battery_widget({ show_current_level = true, display_notification = true, font = require("theme.theme").font }),
             s.mylayoutbox,
         },
