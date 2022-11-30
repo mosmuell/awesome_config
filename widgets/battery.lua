@@ -1,11 +1,12 @@
 -------------------------------------------------
 -- Battery Widget for Awesome Window Manager
 -- Shows the battery status using the ACPI tool
--- More details could be found here:
+--
+-- This script is adapted from
 -- https://github.com/streetturtle/awesome-wm-widgets/tree/master/battery-widget
 
--- @author Pavel Makhov
--- @copyright 2017 Pavel Makhov
+-- @author Mose Mueller
+-- @copyright 2022 Mose Mueller
 -------------------------------------------------
 
 local awful = require("awful")
