@@ -16,6 +16,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Widgets
 local battery_widget = require("widgets.battery")
+local audio_widget = require("widgets.volume")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 
 -- Enable hotkeys help widget for VIM and other apps
@@ -241,6 +242,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray({screen = awful.screen.focused()}),
+            audio_widget(),
             battery_widget({ show_current_level = true, display_notification = true, font = require("theme.theme").font }),
             s.mylayoutbox,
         },
