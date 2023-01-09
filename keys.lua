@@ -4,7 +4,8 @@
 --      ██╔═██╗ ██╔══╝    ╚██╔╝  ╚════██║
 --      ██║  ██╗███████╗   ██║   ███████║
 --      ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝
-
+--
+-- Inspired from: https://github.com/WillPower3309/awesome-dotfiles/tree/master/awesome
 
 -- ===================================================================
 -- Initialization
@@ -264,10 +265,25 @@ keys.globalkeys = gears.table.join(
     ),
 
     -- Screenshots
+    awful.key({ modkey }, "Print", function()
+        awful.util.spawn_with_shell("maim | xclip -selection clipboard -t image/png")
+    end,
+        { description = "Screenshot to clipboard", group = "launcher" }),
+
     awful.key({ modkey, "Shift" }, "Print", function()
         awful.util.spawn_with_shell("maim -s | xclip -selection clipboard -t image/png")
     end,
-        { description = "Screenshot", group = "launcher" })
+        { description = "Screenshot selection to clipboard", group = "launcher" }),
+
+    awful.key({}, "Print", function()
+        awful.util.spawn_with_shell("maim \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
+    end,
+        { description = "Screenshot to file", group = "launcher" }),
+
+    awful.key({ "Shift" }, "Print", function()
+        awful.util.spawn_with_shell("maim -s \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
+    end,
+        { description = "Screenshot selection to file", group = "launcher" })
 )
 
 -- =========================================
