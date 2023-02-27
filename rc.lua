@@ -18,6 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local battery_widget = require("widgets.battery")
 local audio_widget = require("widgets.volume")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+-- local audio_widget = require("awesome-wm-widgets.volume-widget.volume")
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -241,7 +242,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            wibox.widget.systray({screen = awful.screen.focused()}),
+            wibox.widget.systray({ screen = awful.screen.focused() }),
             audio_widget(),
             battery_widget({ show_current_level = true, display_notification = true, font = require("theme.theme").font }),
             s.mylayoutbox,
@@ -322,7 +323,10 @@ awful.rules.rules = {
     { rule = { class = "Spotify" },
         properties = { screen = 1, tag = names[10] } },
 
-    { rule = { class = "libreoffice-writer" },
+    { rule = { class = "libreoffice" },
+        properties = { screen = 1, tag = names[4] } },
+
+    { rule = { class = "notion-app-enhanced" },
         properties = { screen = 1, tag = names[4] } },
 
 }
@@ -420,3 +424,4 @@ end
 
 -- pipe commands to bash to allow command to be shell agnostic
 awful.spawn.with_shell(shell_command)
+awful.spawn.with_shell("autorandr -c")
