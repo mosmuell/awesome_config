@@ -406,22 +406,26 @@ beautiful.useless_gap = 5
 -- List of apps to run on start-up
 local run_on_start_up = {
     "xcompmgr &",
-    "flatpak run com.synology.SynologyDrive",
+    "flatpak run com.synology.SynologyDrive &",
     "/opt/Rambox/rambox &",
     "nm-applet &",
-    "blueman-applet",
+    "blueman-applet &",
     "lxpolkit &",
 }
 
--- Run all the apps listed in run_on_start_up
-
 -- Shell command that will only run the apps if awesome hasn't been started yet
-local shell_command = 'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;' ..
-    'xrdb -merge <<< "awesome.started:true";'
-for _, app in ipairs(run_on_start_up) do
-    shell_command = shell_command .. app .. ";"
-end
+local awesome_already_started = 'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then echo 1; exit; fi; xrdb -merge <<< "awesome.started:true"; echo 0; exit;'
 
--- pipe commands to bash to allow command to be shell agnostic
-awful.spawn.with_shell(shell_command)
+awful.spawn.easy_async_with_shell(awesome_already_started, function(out)
+
+    -- when awesome.started:true is not set
+    if out == '0\n' then
+        -- Run all the apps listed in run_on_start_up
+        for app = 1, #run_on_start_up do
+            awful.util.spawn(run_on_start_up[app])
+        end
+    end
+end)
+
+-- run on every reload
 awful.spawn.with_shell("autorandr -c")
