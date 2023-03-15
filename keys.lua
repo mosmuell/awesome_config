@@ -172,20 +172,20 @@ keys.globalkeys = gears.table.join(
 
     -- firefox
     awful.key({ modkey, "Shift" }, "f", function()
-        awful.spawn("firefox")
-    end,
+            awful.spawn("firefox")
+        end,
         { description = "Open browser (firefox)", group = "launcher" }),
 
     -- spotify
     awful.key({ modkey, "Shift" }, "s", function()
-        awful.spawn("flatpak run com.spotify.Client")
-    end,
+            awful.spawn("flatpak run com.spotify.Client")
+        end,
         { description = "Open Spotify", group = "launcher" }),
 
     -- Ranger
     awful.key({ modkey }, "e", function()
-        awful.spawn(terminal .. " -e ranger")
-    end,
+            awful.spawn(terminal .. " -e ranger")
+        end,
         { description = "show the menubar", group = "launcher" }),
 
     -- Menubar
@@ -266,23 +266,21 @@ keys.globalkeys = gears.table.join(
 
     -- Screenshots
     awful.key({ modkey }, "Print", function()
-        awful.util.spawn_with_shell("maim | xclip -selection clipboard -t image/png")
-    end,
+            awful.util.spawn_with_shell("maim | xclip -selection clipboard -t image/png")
+        end,
         { description = "Screenshot to clipboard", group = "launcher" }),
-
     awful.key({ modkey, "Shift" }, "Print", function()
-        awful.util.spawn_with_shell("maim -s | xclip -selection clipboard -t image/png")
-    end,
+            awful.util.spawn_with_shell("maim -s | xclip -selection clipboard -t image/png")
+        end,
         { description = "Screenshot selection to clipboard", group = "launcher" }),
 
     awful.key({}, "Print", function()
-        awful.util.spawn_with_shell("maim \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
-    end,
+            awful.util.spawn_with_shell("maim \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
+        end,
         { description = "Screenshot to file", group = "launcher" }),
-
     awful.key({ "Shift" }, "Print", function()
-        awful.util.spawn_with_shell("maim -s \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
-    end,
+            awful.util.spawn_with_shell("maim -s \"$HOME/Pictures/Screenshot from $(date +%F) $(date +%H-%M-%S).png\"")
+        end,
         { description = "Screenshot selection to file", group = "launcher" })
 )
 
@@ -372,54 +370,54 @@ keys.clientkeys = gears.table.join(
 
     -- Resize windows
     awful.key({ modkey, "Control" }, "Up", function(c)
-        if c.floating then
-            c:relative_move(0, 0, 0, -10)
-        else
-            awful.client.incwfact(0.025)
-        end
-    end,
+            if c.floating then
+                c:relative_move(0, 0, 0, -10)
+            else
+                awful.client.incwfact(0.025)
+            end
+        end,
         { description = "Floating Resize Vertical -", group = "client" }),
     awful.key({ modkey, "Control" }, "Down", function(c)
-        if c.floating then
-            c:relative_move(0, 0, 0, 10)
-        else
-            awful.client.incwfact(-0.025)
-        end
-    end,
+            if c.floating then
+                c:relative_move(0, 0, 0, 10)
+            else
+                awful.client.incwfact(-0.025)
+            end
+        end,
         { description = "Floating Resize Vertical +", group = "client" }),
     awful.key({ modkey, "Control" }, "Left", function(c)
-        if c.floating then
-            c:relative_move(0, 0, -10, 0)
-        else
-            awful.tag.incmwfact(-0.025)
-        end
-    end,
+            if c.floating then
+                c:relative_move(0, 0, -10, 0)
+            else
+                awful.tag.incmwfact(-0.025)
+            end
+        end,
         { description = "Floating Resize Horizontal -", group = "client" }),
     awful.key({ modkey, "Control" }, "Right", function(c)
-        if c.floating then
-            c:relative_move(0, 0, 10, 0)
-        else
-            awful.tag.incmwfact(0.025)
-        end
-    end,
+            if c.floating then
+                c:relative_move(0, 0, 10, 0)
+            else
+                awful.tag.incmwfact(0.025)
+            end
+        end,
         { description = "Floating Resize Horizontal +", group = "client" }),
 
     -- Moving floating windows
     awful.key({ modkey, "Shift" }, "Down", function(c)
-        c:relative_move(0, 10, 0, 0)
-    end,
+            c:relative_move(0, 10, 0, 0)
+        end,
         { description = "Floating Move Down", group = "client" }),
     awful.key({ modkey, "Shift" }, "Up", function(c)
-        c:relative_move(0, -10, 0, 0)
-    end,
+            c:relative_move(0, -10, 0, 0)
+        end,
         { description = "Floating Move Up", group = "client" }),
     awful.key({ modkey, "Shift" }, "Left", function(c)
-        c:relative_move(-10, 0, 0, 0)
-    end,
+            c:relative_move(-10, 0, 0, 0)
+        end,
         { description = "Floating Move Left", group = "client" }),
     awful.key({ modkey, "Shift" }, "Right", function(c)
-        c:relative_move(10, 0, 0, 0)
-    end,
+            c:relative_move(10, 0, 0, 0)
+        end,
         { description = "Floating Move Right", group = "client" }),
 
     -- Maximize unmaximize
@@ -456,46 +454,46 @@ keys.clientkeys = gears.table.join(
 
     -- Moving window focus works between desktops
     awful.key({ modkey, }, "j", function(c)
-        awful.client.focus.global_bydirection("down")
-        c:lower()
-    end,
+            awful.client.focus.global_bydirection("down")
+            c:lower()
+        end,
         { description = "focus next window up", group = "client" }),
     awful.key({ modkey, }, "k", function(c)
-        awful.client.focus.global_bydirection("up")
-        c:lower()
-    end,
+            awful.client.focus.global_bydirection("up")
+            c:lower()
+        end,
         { description = "focus next window down", group = "client" }),
     awful.key({ modkey, }, "l", function(c)
-        awful.client.focus.global_bydirection("right")
-        c:lower()
-    end,
+            awful.client.focus.global_bydirection("right")
+            c:lower()
+        end,
         { description = "focus next window right", group = "client" }),
     awful.key({ modkey, }, "h", function(c)
-        awful.client.focus.global_bydirection("left")
-        c:lower()
-    end,
+            awful.client.focus.global_bydirection("left")
+            c:lower()
+        end,
         { description = "focus next window left", group = "client" }),
 
     -- Moving windows between positions works between desktops
     awful.key({ modkey, "Shift" }, "h", function(c)
-        awful.client.swap.global_bydirection("left")
-        c:raise()
-    end,
+            awful.client.swap.global_bydirection("left")
+            c:raise()
+        end,
         { description = "swap with left client", group = "client" }),
     awful.key({ modkey, "Shift" }, "l", function(c)
-        awful.client.swap.global_bydirection("right")
-        c:raise()
-    end,
+            awful.client.swap.global_bydirection("right")
+            c:raise()
+        end,
         { description = "swap with right client", group = "client" }),
     awful.key({ modkey, "Shift" }, "j", function(c)
-        awful.client.swap.global_bydirection("down")
-        c:raise()
-    end,
+            awful.client.swap.global_bydirection("down")
+            c:raise()
+        end,
         { description = "swap with down client", group = "client" }),
     awful.key({ modkey, "Shift" }, "k", function(c)
-        awful.client.swap.global_bydirection("up")
-        c:raise()
-    end,
+            awful.client.swap.global_bydirection("up")
+            c:raise()
+        end,
         { description = "swap with up client", group = "client" })
 )
 
