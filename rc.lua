@@ -355,8 +355,10 @@ awful.rules.rules = {
         properties = { screen = 1, tag = names[4] }
     },
 
-    { rule = { class = "notion-app-enhanced" },
-        properties = { screen = 1, tag = names[4] } },
+    {
+        rule = { class = "notion-app" },
+        properties = { screen = 1, tag = names[4] }
+    },
 
 }
 -- }}}
