@@ -446,6 +446,9 @@ local run_on_start_up = {
     "nm-applet &",
     "blueman-applet &",
     "lxpolkit &",
+    "tuxedo-control-center &",
+    "flatpak run com.slack.Slack &",
+    "notion-app &"
 }
 
 -- Shell command that will only run the apps if awesome hasn't been started yet
